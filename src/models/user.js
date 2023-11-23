@@ -5,7 +5,7 @@ class User extends Sequelize.Model {
         User.init({
             email: {
                 type: Sequelize.STRING(40),
-                allowNull: true,    // 필수 입력사항
+                allowNull: true,    // 필수가 아닌경우 true 핑수면 false
                 unique: true,   // 다른 User와 같으면 안됨
             },
             nickName: {
