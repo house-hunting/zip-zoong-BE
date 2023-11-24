@@ -1,15 +1,22 @@
 exports.renderProfile = (req, res) => {
-    res.render('profile', { title: '내 정보' });
+    res.render('profile', { title: '내 정보 - zipzoong' });
 };
 
 exports.renderJoin = (req, res) => {
-    res.render('join', { title: '회원가입' });
+    res.render('join', { title: '회원가입 - zipzoong' });
 };
 
 exports.renderMain = (req, res, next) => {
+  try {
+
+ 
     const twits = [];
     res.render('main', {
-      title: 'NodeBird',
+      title: 'zipzoong',
       twits,
     });
+  } catch(error) {
+    console.log(error);
+    next(error);
+  }
   };

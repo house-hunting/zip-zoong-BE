@@ -1,4 +1,4 @@
-import express from'express';
+import express from 'express';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import path from 'path';
@@ -9,12 +9,14 @@ import passport from 'passport';
 
 dotenv.config();
 
+
 const app = express();
-passportConfig();
+
 app.set('port', process.env.PORT || 8000);
 app.set('view engine', 'html');
 
-nunjucks.comfigure('views', {   // 서버와 클라이언트를 연결 'views'라는 폴더 안에 있는 파일
+
+nunjucks.configure('views', {   // 서버와 클라이언트를 연결 'views'라는 폴더 안에 있는 파일
     express: app, 
     watch: true,
 });

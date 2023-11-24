@@ -39,7 +39,17 @@ class User extends Sequelize.Model {
     }
 
     static associate(db){
-        // 테이블간 관계 작성
+        db.User.hasMany(db.Room);
+        db.User.belongsToMany(db.User, {
+            foreignKey: 'connectId',
+            as: 'Connecter',
+            through: 'Connect'
+        });
+        db.User.belongsToMany(db.User, {
+            foreignKey: 'connecterId',
+            as: 'Connecteing',
+            through: 'Connect'
+        });
     }
 };
 

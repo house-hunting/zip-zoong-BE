@@ -3,6 +3,11 @@ import Sequelize from "sequelize";
 class Room extends Sequelize.Model {
     static init(sequelize) {
         Room.init({
+            seq: {
+                type: Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
+            },
             size: { // 원룸, 투룸인지
                 type: Sequelize.ENUM('0', '1'),    // 원룸 0, 투름 1
                 allowNull: true,
@@ -47,7 +52,7 @@ class Room extends Sequelize.Model {
             },
             valueForOption2: {  // 1을 선택했을때
                 type: Sequelize.DATEONLY,   // 년 월 일 입력해야됨
-                allowNull: true,    // 필수입력
+                allowNull: flase,    // 필수입력
             },
             floor: {    // 층 입력
                 type: Sequelize.INTEGER,
@@ -71,8 +76,8 @@ class Room extends Sequelize.Model {
                 type: Sequelize.ENUM('0', '1', '2', '3', '4', '5'),
                 allowNull: true,
             },
-            imgUrl: {
-                type: Sequelize.STRING(40),
+            img: {
+                type: Sequelize.STRING(200),
                 allowNull: false,
             },
             title: {
@@ -96,7 +101,8 @@ class Room extends Sequelize.Model {
     }
 
     static associate(db){
-        // 테이블간 관계 작성
+        db.Room.belongsTo(db.User);
+        db.Room.belongsToMany(db.address, {through: 'RoomAddress'});
     }
 };
 
