@@ -47,7 +47,7 @@ class User extends Sequelize.Model {
         });
         db.User.belongsToMany(db.User, {
             foreignKey: 'connecterId',
-            as: 'Connecteing',
+            as: 'Connecting',
             through: 'Connect'
         });
     }

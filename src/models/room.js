@@ -10,7 +10,8 @@ class Room extends Sequelize.Model {
             },
             size: { // 원룸, 투룸인지
                 type: Sequelize.ENUM('0', '1'),    // 원룸 0, 투름 1
-                allowNull: true,
+                allowNull: false,   
+                defaultValue: '0',  // 기본값은 0
             },
             address: {  // 주소
                 type: Sequelize.STRING(60),
@@ -22,19 +23,21 @@ class Room extends Sequelize.Model {
             },
             style:{ // 방 타입
                 type: Sequelize.ENUM('0', '1', '2'),    // 오픈형 0, 분리형 1, 복층형 2
-                allowNull: true,
+                allowNull: false,   
+                defaultValue: '0',  // 기본값은 0
             },
             paied: {    // 월세, 전세 인지
                 type: Sequelize.INTEGER('0', '1'),    // 월세 0, 전세 1
-                allowNull: true,
+                allowNull: false,   
+                defaultValue: '0',  // 기본값은 0
             },
             monthPay: { // 월세
                 type: Sequelize.INTEGER,
-                allowNull: true,
+                allowNull: false,   
             },
             deposit: {  // 보증금
                 type: Sequelize.INTEGER,
-                allowNull: true,
+                allowNull: false,   
             },
             maintenance: {  // 관리비
                 type: Sequelize.ENUM('0', '1'), // 0 없음, 1 있음

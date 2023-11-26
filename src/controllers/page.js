@@ -9,7 +9,7 @@ exports.renderJoin = (req, res) => {
     res.render('join', { title: '회원가입 - zipzoong' });
 };
 
-exports.renderBoard = async(req, res, next) => { // 게시시판 파일로 이름으로 바꾸기
+exports.renderUser = async(req, res, next) => {
   try {
     const rooms = await Room.findAll({
       include: {
@@ -19,7 +19,7 @@ exports.renderBoard = async(req, res, next) => { // 게시시판 파일로 이�
       order: [['createdAt', 'DESC']]
     })
  
-      res.render('board', {  // 게시시판 파일로 이름으로 바꾸기
+      res.render('board', {
         title: 'zipzoong',
         twits: rooms,
       });

@@ -1,13 +1,27 @@
 import Room from "../models/room";
 import Address from "../models/address";
 
-exports.uploadImage = (req, res) => {
+exports.afteruploadImage = (req, res) => {
     res.json({ url: `/img/${req.file.filename}`});
 };
 
-exports.uploadAddress = async(req, res) => {
+exports.uploadBoard = async(req, res) => {
     try {
         const room = await Room.create({
+            size: req.body.size,
+            address: req.body.address,
+            pyeong: req.body.peyeong,
+            style: req.body.style,
+            paied: req.body.paied,
+            monthPay: req.body.monthPay,
+            deposit: req.body.deposit,
+            maintenance: req.body.maintenance,
+            moveDate: req.body.moveDate,
+            floor: req.body.floor,
+            elevator: req.body.elevator,
+            parking: req.body.parking,
+            options: req.body.options,
+            title: req.body.title,
             content: req.body.content,
             img: req.body.url,
             UserId: req.user.id,
