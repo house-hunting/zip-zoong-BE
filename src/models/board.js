@@ -28,7 +28,7 @@ class Room extends Sequelize.Model {
                 defaultValue: '0',  // 기본값은 0
             },
             paied: {    // 월세, 전세 인지
-                type: Sequelize.INTEGER('0', '1'),    // 월세 0, 전세 1
+                type: Sequelize.ENUM('0', '1'),    // 월세 0, 전세 1
                 allowNull: false,   
                 defaultValue: '0',  // 기본값은 0
             },
@@ -82,11 +82,11 @@ class Room extends Sequelize.Model {
                 allowNull: true,
             },
             img: {
-                type: Sequelize.STRING(200),
+                type: Sequelize.Sequelize.STRING(200),
                 allowNull: false,
             },
             title: {
-                type: Sequelize.ARRAY(Sequelize.STRING),
+                type: Sequelize.STRING(30),
                 allowNull: false
             },
             content: {

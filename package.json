@@ -1,10 +1,10 @@
 {
   "name": "zipzoong",
   "version": "0.0.1",
-  "description": "부동산 직거해 사이트",
+  "description": "부동산 직거래 사이트",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app"
+    "start": "nodemon ./src/app"
   },
   "author": "kmong",
   "license": "MIT",

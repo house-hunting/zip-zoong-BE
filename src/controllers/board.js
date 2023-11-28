@@ -1,5 +1,5 @@
-const Board = require('../middlewares/board');
-const Address = require(',,.models/address');
+const Board = require('../models/board');
+const Address = require('../models/address');
 
 
 exports.afteruploadImage = (req, res) => {
@@ -46,5 +46,20 @@ exports.uploadBoard = async(req, res) => {
     } catch(error) {
         console.log(error);
         nextPowerTwo(error);
+    }
+}
+
+exports.deleteBoard = async (req, res, next) => {
+    try {
+        const board = await Board.findOne({ where: { seq: req.board.seq }});
+        if(board) {
+            await board.removeBoard(parseInt(req.params.seq, 10));
+            res.send('게시글을 삭제했습니다.');
+        } else {
+            res.status(404).send('게시글이 존재하지 않습니다.');
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
     }
 }

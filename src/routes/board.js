@@ -4,7 +4,7 @@ const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
 const fs = require('fs');   // 파일조작 fs
 const multer = require('multer');
 const path = require('path');
-const { afterUploadImage, uploadBoard } = require('../controllers/post');
+const { afterUploadImage, uploadBoard, deleteBoard } = require('../controllers/board');
 
 
 try {
@@ -27,9 +27,11 @@ const upload = multer({
     limits: { fileSize: 20 * 1024 * 1024},
 });
 
-router.post('/img', isLoggedIn, upload.array('img'), afteruploadImage);
+router.post('/img', isLoggedIn, upload.array('img'), afterUploadImage);
 
 const upload2 = multer();
 router.post('/', isLoggedIn, upload2.none(), uploadBoard);
+
+router.post('/:seq/deleteBoard', isLoggedIn, deleteBoard);
 
 module.exports = router;
