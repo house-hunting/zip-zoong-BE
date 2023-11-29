@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 
 
-class Room extends Sequelize.Model {
+class Board extends Sequelize.Model {
     static initiate(sequelize) {
-        Room.init({
+        Board.init({
             seq: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
@@ -97,8 +97,8 @@ class Room extends Sequelize.Model {
             sequelize,
             timestamps: true,
             underscored: false,
-            modelName: 'Room',
-            tableName: 'room',
+            modelName: 'Board',
+            tableName: 'board',
             paranoid: true,
             charset: 'utf8',
             collate: 'utf8_general_ci',
@@ -106,9 +106,10 @@ class Room extends Sequelize.Model {
     }
 
     static associate(db){
-        db.Room.belongsTo(db.User);
-        db.Room.belongsToMany(db.Address, {through: 'RoomAddress'});
+        db.Board.belongsTo(db.User);
+        db.Board.belongsToMany(db.Address, {through: 'BoardAddress'});
+        db.Post.belongsToMany(db.User, { through: 'Like', as: 'Liker'});
     }
 };
 
-module.exports = Room;
+module.exports = Board;

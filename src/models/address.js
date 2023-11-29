@@ -39,7 +39,7 @@ class Address extends Sequelize.Model {
         });
     }
     static associate(db){
-        db.Address.belongsToMany(db.Room, { through: 'RoomAddress' });
+        db.Address.belongsToMany(db.Board, { through: 'BoardAddress' });
     }
 }
 

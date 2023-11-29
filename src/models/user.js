@@ -40,7 +40,7 @@ class User extends Sequelize.Model {
     }
 
     static associate(db){
-        db.User.hasMany(db.Room);
+        db.User.hasMany(db.Board);
         db.User.belongsToMany(db.User, {
             foreignKey: 'connectId',
             as: 'Connecter',
@@ -51,6 +51,7 @@ class User extends Sequelize.Model {
             as: 'Connecting',
             through: 'Connect'
         });
+        db.User.belongsToMany(db.Board, { through: 'Like' });
     }
 };
 

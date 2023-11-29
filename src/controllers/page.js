@@ -1,6 +1,6 @@
 const Board = require('../models/board');
 const User = require('../models/user');
-const { Op, sequelize } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 exports.renderProfile = (req, res) => {
     res.render('profile', { title: '내 정보 - zipzoong' });
@@ -12,7 +12,7 @@ exports.renderJoin = (req, res) => {
 
 exports.renderMain = async(req, res, next) => {
   try {
-    const rooms = await Room.findAll({
+    const boards = await Board.findAll({
       include: {
         model: User,
         attributes: ['id', 'nick'],
@@ -22,7 +22,7 @@ exports.renderMain = async(req, res, next) => {
  
       res.render('board', {
         title: 'zipzoong',
-        twits: rooms,
+        twits: boards,
       });
     } catch(error) {
       console.log(error);
@@ -36,28 +36,55 @@ exports.renderMain = async(req, res, next) => {
       return res.redirect('/');
     }
     try {
-      const address = await Room.findOne({ where: {address: {
+      const address = await Board.findAll({ where: {address: {
         [Op.or]: [
           Sequelize.literal(`address LIKE '%${query}%'`),
           Sequelize.literal(`address.sido LIKE '%${query}%'`),
           Sequelize.literal(`address.gugun LIKE '%${query}%'`),
           Sequelize.literal(`address.dong LIKE '%${query}%'`),
         ]
-      }}})
+      }}});
       let boards = [];
       if (address) {
-        boards = await address.getRooms({
+        boards = await address.getBoards({
           include: [{ model: User, attributes: ['id', 'nick']}, 
-          {model: Room, attributes: ['size', 'address.dong', 'deposit', 'monthpay', 'title']}],
+        {
+          model: Board,
+          attributes: ['size', 'address.dong', 'deposit', 'monthpay', 'title']
+        }],
           order: [['createdAt', 'DESC']]
         });
       }
       res.render('main', {
         title: `${query} | zipzoong`,
-        rooms: boards,
+        boards: boards,
       })
     } catch (error) {
       console.error("해당 주소의 게시글이 없습니다.");
+      next(error);
+    }
+  };
+
+  exports.myPageInLike = async (req, res, next) => {
+    try {
+      const board = await Board.findAll({ where: {id: req.params.id }});
+
+      let boards = [];
+      if (boards) {
+        boards = await boards.getBoards({
+          include: {
+            model: Board,
+            attributes: [ 'title', 'deposit', 'monthPay', 'maintenance']
+          },
+          order: [['createdAt', 'DESC']]
+        });
+      }
+      res.render('myPageInLike', {
+      title: 'Likes',
+      likedBoards: likedBoards,
+      });
+    } catch (error) {
+      console.error(error);
       next(error);
     }
   };
