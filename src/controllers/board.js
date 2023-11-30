@@ -48,10 +48,34 @@ exports.uploadBoard = async(req, res) => {
     }
 };
 
+// 게시글 삭제
 exports.deleteBoard = async (req, res, next) => {
     try {
-       await Board.destroy({ where: {id: req.params.id, userid: req.user.id }});
+       await Board.destroy({ where: {id: req.params.id, userId: req.user.id }});
        res.send('게시글을 삭제했습니다.');
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
+// 게시글 수정
+exports.updateBoard = async (req, res, next) => {
+    try {
+        const board = await Board.findOne({ where: {id: req.params.id, userId: req.user.id }});
+        if(board) {
+            await Board.update({
+                monthPay: req.body.monthPay,
+                deposit: req.body.deposit,
+                maintenance: req.body.maintenance,
+                moveDate: req.body.moveDate,
+                title: req.body.title,
+                content: req.body.content,
+            });
+            res.send('게시글이 수정됐습니다.');
+        } else {
+            res.status(404).send('게시글이 존재하지 않습니다.');
+        }
     } catch (error) {
         console.error(error);
         next(error);

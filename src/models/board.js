@@ -108,7 +108,7 @@ class Board extends Sequelize.Model {
     static associate(db){
         db.Board.belongsTo(db.User);
         db.Board.belongsToMany(db.Address, {through: 'BoardAddress'});
-        db.Post.belongsToMany(db.User, { through: 'Like', as: 'Liker'});
+        db.Board.belongsToMany(db.User, { through: 'Like', as: 'Liker'});
     }
 };
 

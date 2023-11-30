@@ -4,7 +4,7 @@ const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
 const fs = require('fs');   // 파일조작 fs
 const multer = require('multer');
 const path = require('path');
-const { afterUploadImage, uploadBoard, deleteBoard, Like, unLike } = require('../controllers/board');
+const { afterUploadImage, uploadBoard, deleteBoard, Like, unLike, updateBoard } = require('../controllers/board');
 
 
 try {
@@ -33,6 +33,8 @@ const upload2 = multer();
 router.post('/', isLoggedIn, upload2.none(), uploadBoard);
 
 router.delete('/:id', deleteBoard);
+
+router.post('/updateBoard', updateBoard);
 
 router.post('/:id/Like', Like);
 

@@ -30,3 +30,20 @@ exports.disconnect = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.profile = async (seq, res, next) => {
+    try {
+        const nick = await User.findOne({ where: {nick: req.user.nick}});
+        if (!nick) {
+            await User.update({nick: req.body.nick}, {
+                where: {id: req.user.id},
+            });
+            res.send('사용가능한 닉네임 입니다.')
+        } else {
+            res.status(404).send('다른 사용자가 닉네임을 사용중 입니다.');
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};

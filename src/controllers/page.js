@@ -22,7 +22,7 @@ exports.renderMain = async(req, res, next) => {
  
       res.render('board', {
         title: 'zipzoong',
-        twits: boards,
+        users: boards,
       });
     } catch(error) {
       console.log(error);
@@ -67,21 +67,17 @@ exports.renderMain = async(req, res, next) => {
 
   exports.myPageInLike = async (req, res, next) => {
     try {
-      const board = await Board.findAll({ where: {id: req.params.id }});
-
-      let boards = [];
-      if (boards) {
-        boards = await boards.getBoards({
+         likeBoards = await Board.findAll({
           include: {
             model: Board,
             attributes: [ 'title', 'deposit', 'monthPay', 'maintenance']
           },
           order: [['createdAt', 'DESC']]
         });
-      }
+      
       res.render('myPageInLike', {
       title: 'Likes',
-      likedBoards: likedBoards,
+      likeBoards: likeBoards,
       });
     } catch (error) {
       console.error(error);
