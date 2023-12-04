@@ -31,11 +31,16 @@ exports.disconnect = async (req, res, next) => {
     }
 };
 
-exports.profile = async (seq, res, next) => {
+exports.uploadImage = (req, res) => {
+    console.log(req.file);
+    res.json({ url: `/img/${req.file.filename}` });
+};
+
+exports.profile = async (req, res, next) => {
     try {
         const nick = await User.findOne({ where: {nick: req.user.nick}});
         if (!nick) {
-            await User.update({nick: req.body.nick}, {
+            await User.update({nick: req.body.nick, img: req.body.img}, {
                 where: {id: req.user.id},
             });
             res.send('사용가능한 닉네임 입니다.')

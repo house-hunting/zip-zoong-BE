@@ -10,13 +10,10 @@ exports.renderJoin = (req, res) => {
     res.render('join', { title: '회원가입 - zipzoong' });
 };
 
-exports.renderMain = async(req, res, next) => {
+exports.renderBoardList = async(req, res, next) => {
   try {
     const boards = await Board.findAll({
-      include: {
-        model: User,
-        attributes: ['id', 'nick'],
-      },
+        attributes: ['title', 'deposit', 'monthPay', 'floor', 'address', 'peyeong'],
       order: [['createdAt', 'DESC']]
     })
  
@@ -29,6 +26,18 @@ exports.renderMain = async(req, res, next) => {
       next(error);
     }
   };
+
+  exports.renderBoardDetail = async (req, res) => {
+    try {
+      const board = await Board.findOne({ where: {seq: req.board.seq},
+        attributes: []
+      });
+
+    } catch(error) {
+      console.log(error);
+      next(error);
+    }
+  }
 
   exports.renderSearch = async(req, res, next) => {
     const query = req.query.search; // 검색  html name="search"
@@ -67,10 +76,10 @@ exports.renderMain = async(req, res, next) => {
 
   exports.myPageInLike = async (req, res, next) => {
     try {
-         likeBoards = await Board.findAll({
+         const likeBoards = await Board.findAll({
           include: {
             model: Board,
-            attributes: [ 'title', 'deposit', 'monthPay', 'maintenance']
+            attributes: [ 'img', 'title', 'deposit', 'monthPay', 'maintenance']
           },
           order: [['createdAt', 'DESC']]
         });
@@ -79,6 +88,18 @@ exports.renderMain = async(req, res, next) => {
       title: 'Likes',
       likeBoards: likeBoards,
       });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  };
+
+  exports.myBoardList = async (req, res, next) => {
+    try {
+      const myBoard = await Board.findAll({ where: {id: req.params.id, userId: req.user.id},
+        attributes: [ 'img', 'title', 'deposit', 'monthPay', 'maintenance']
+      });
+
     } catch (error) {
       console.error(error);
       next(error);
